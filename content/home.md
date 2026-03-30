@@ -19,13 +19,13 @@ contact:
   github: "https://github.com/DreamAI-GEAR"
 nav:
   - label: "Home"
-    href: "/"
+    href: ""
   - label: "Projects"
-    href: "/projects"
+    href: "projects"
   - label: "Blog"
-    href: "/blog"
+    href: "blog"
   - label: "Members"
-    href: "/members"
+    href: "members"
   - label: "Events"
-    href: "/events"
+    href: "events"
 ---
