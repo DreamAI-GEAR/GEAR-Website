@@ -1,0 +1,31 @@
+---
+interface Props {
+  contact: {
+    email: string;
+    github: string;
+  };
+}
+
+const { contact } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-gray-100 bg-gray-50">
+  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <div class="flex flex-col items-center gap-3 text-center text-sm text-gray-500">
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        {contact.email && (
+          <a href={`mailto:${contact.email}`} class="text-violet-600 hover:text-violet-700 transition-colors duration-200">
+            {contact.email}
+          </a>
+        )}
+        {contact.github && (
+          <a href={contact.github} target="_blank" rel="noopener noreferrer" class="text-violet-600 hover:text-violet-700 transition-colors duration-200">
+            GitHub
+          </a>
+        )}
+      </div>
+      <p>&copy; {year} GEAR. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

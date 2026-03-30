@@ -1,0 +1,71 @@
+---
+interface Props {
+  text: string;
+  speed?: number;
+  delay?: number;
+}
+
+const { text, speed = 50, delay = 500 } = Astro.props;
+---
+
+<span
+  class="typewriter"
+  data-text={text}
+  data-speed={speed}
+  data-delay={delay}
+  aria-label={text}
+></span>
+
+<style>
+  .typewriter::after {
+    content: '|';
+    animation: blink 0.7s step-end infinite;
+  }
+
+  .typewriter.done::after {
+    content: '';
+    animation: none;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .typewriter::after {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initTypewriters() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll<HTMLSpanElement>('.typewriter').forEach((el) => {
+      const text = el.dataset.text ?? '';
+      const speed = Number(el.dataset.speed) || 50;
+      const startDelay = Number(el.dataset.delay) || 500;
+
+      if (reducedMotion) {
+        el.textContent = text;
+        el.classList.add('done');
+        return;
+      }
+
+      let i = 0;
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          el.textContent = text.slice(0, ++i);
+          if (i >= text.length) {
+            clearInterval(interval);
+            el.classList.add('done');
+          }
+        }, speed);
+      }, startDelay);
+    });
+  }
+
+  initTypewriters();
+</script>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  role: '교수' | '멘토' | '리드' | '멤버';
+}
+
+const { role } = Astro.props;
+
+const colorMap: Record<string, string> = {
+  '교수': 'bg-violet-700',
+  '멘토': 'bg-violet-600',
+  '리드': 'bg-violet-500',
+  '멤버': 'bg-gray-500',
+};
+
+const bg = colorMap[role] ?? 'bg-gray-500';
+---
+
+<span class:list={['inline-block rounded-full px-2 py-0.5 text-xs font-medium text-white', bg]}>
+  {role}
+</span>

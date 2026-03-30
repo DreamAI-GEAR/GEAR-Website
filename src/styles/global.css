@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-violet-50: oklch(0.969 0.016 293);
+  --color-violet-100: oklch(0.943 0.029 294);
+  --color-violet-200: oklch(0.894 0.057 293);
+  --color-violet-300: oklch(0.811 0.111 293);
+  --color-violet-400: oklch(0.702 0.183 293);
+  --color-violet-500: oklch(0.606 0.25 292);
+  --color-violet-600: oklch(0.541 0.281 293);
+  --color-violet-700: oklch(0.491 0.27 292);
+  --color-violet-800: oklch(0.432 0.232 292);
+  --color-violet-900: oklch(0.38 0.189 293);
+  --color-violet-950: oklch(0.283 0.141 292);
+}
+
+/* Blog prose: H1 inside content renders smaller than page title */
+.blog-prose :where(h1) {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.blog-prose :where(h2) {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-prose :where(h3) {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose :where(p) {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  text-wrap: pretty;
+}
+
+.blog-prose :where(pre) {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.blog-prose :where(code:not(pre code)) {
+  background-color: var(--color-violet-100);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.blog-prose :where(ul) {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose :where(ol) {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose :where(li) {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.blog-prose :where(a) {
+  color: var(--color-violet-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-prose :where(a:hover) {
+  color: var(--color-violet-800);
+}
+
+.blog-prose :where(blockquote) {
+  border-left: 3px solid var(--color-violet-300);
+  padding-left: 1rem;
+  color: var(--color-gray-600);
+  font-style: italic;
+}
+
+.blog-prose :where(img) {
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.blog-prose :where(hr) {
+  border-color: var(--color-gray-200);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

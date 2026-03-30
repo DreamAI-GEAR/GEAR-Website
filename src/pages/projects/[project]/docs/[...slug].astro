@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allDocs = await getCollection('docs');
+
+  const grouped = new Map<string, typeof allDocs>();
+  for (const doc of allDocs) {
+    const project = doc.id.split('/')[0];
+    if (!grouped.has(project)) grouped.set(project, []);
+    grouped.get(project)!.push(doc);
+  }
+
+  const paths: { params: { project: string; slug?: string }; props: { doc: (typeof allDocs)[0]; projectDocs: typeof allDocs } }[] = [];
+
+  for (const [project, docs] of grouped) {
+    const sorted = docs.sort((a, b) => a.data.order - b.data.order);
+    for (const doc of sorted) {
+      const parts = doc.id.split('/');
+      const slug = parts.slice(1).join('/').replace(/\.md$/, '');
+      const isReadme = slug.toLowerCase() === 'readme';
+      paths.push({
+        params: { project, slug: isReadme ? undefined : slug },
+        props: { doc, projectDocs: sorted },
+      });
+    }
+  }
+
+  return paths;
+}
+
+type Doc = Awaited<ReturnType<typeof getCollection<'docs'>>>[number];
+
+interface Props {
+  doc: Doc;
+  projectDocs: Doc[];
+}
+
+const { doc, projectDocs } = Astro.props;
+const { project } = Astro.params;
+const { Content } = await render(doc);
+const base = import.meta.env.BASE_URL;
+
+function docHref(d: Doc) {
+  const parts = d.id.split('/');
+  const slug = parts.slice(1).join('/').replace(/\.md$/, '');
+  if (slug.toLowerCase() === 'readme') return `${base}projects/${project}/docs`;
+  return `${base}projects/${project}/docs/${slug}`;
+}
+---
+
+<BaseLayout title={`${doc.data.title} - GEAR`}>
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="flex flex-col gap-8 lg:flex-row">
+      {/* Sidebar */}
+      <aside class="lg:w-56 lg:shrink-0">
+        <nav class="sticky top-20 space-y-1">
+          <a href={`${base}projects`} class="mb-3 block text-sm text-gray-400 hover:text-violet-600">&larr; 프로젝트 목록</a>
+          {projectDocs.map((d) => (
+            <a
+              href={docHref(d)}
+              class:list={[
+                'block rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                d.id === doc.id
+                  ? 'bg-violet-50 text-violet-600'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-violet-600',
+              ]}
+            >
+              {d.data.title}
+            </a>
+          ))}
+          {doc.data.repoUrl && (
+            <a href={doc.data.repoUrl} target="_blank" rel="noopener noreferrer" class="mt-4 block text-sm text-violet-600 hover:text-violet-700">
+              GitHub Repo &rarr;
+            </a>
+          )}
+        </nav>
+      </aside>
+
+      {/* Content */}
+      <article class="min-w-0 flex-1">
+        <h1 class="text-balance text-3xl font-bold text-gray-900">{doc.data.title}</h1>
+        {doc.data.description && (
+          <p class="mt-2 text-pretty text-gray-600">{doc.data.description}</p>
+        )}
+        <div class="blog-prose mt-8">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </div>
+</BaseLayout>
