@@ -2,7 +2,7 @@
 teamName: "GEAR"
 teamFullName: "GIST Educational Agentic Researchers"
 org: "Dream-AI"
-tagline: "Dream-AI GIST Agentic AI Study Group: GEAR(GIST Educational Agentic Researchers)"
+tagline: "GIST Dream-AI Agentic AI Study Group"
 vision: "Agentic AI 기술을 연구하고, 실제 프로젝트에 적용하여 차세대 AI 시스템의 가능성을 탐구합니다."
 goals:
   - "Agentic AI 핵심 기술 연구 및 논문 스터디"
